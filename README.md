@@ -13,6 +13,23 @@
 
 <br>
 
+##View - Component
+-HomeView.vue
+-BoardView.vue
+ ->BoardList.vue
+  ->BoardListItem.vue
+ ->BoardDetail.vue
+ ->BoardModify.vue
+ ->BoardRegister.vue
+  ->BoardInputItem.vue
+-MemberView.vue
+ ->MemberLogin.vue
+ ->MemberModify.vue
+ ->MemberRegister.vue
+-HouseView.vue
+
+<br>
+
 <img src="./img/happyhouse_main.png" />
 
 <br>
