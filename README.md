@@ -27,6 +27,10 @@
  -> MemberModify.vue<br>
  -> MemberRegister.vue<br>
 - HouseView.vue
+ -> HouseSearchBar.vue<br>
+ -> HouseList.vue<br>
+ -> HouseListItem.vue<br>
+ -> HouseDetail.vue<br>
 
 <br>
 
@@ -47,5 +51,9 @@
 <br>
 
 <img src="./img/happyhouse_user_register.png" />
+
+<br>
+
+<img src="./img/happyhouse_house.png" />
 
 <br>
