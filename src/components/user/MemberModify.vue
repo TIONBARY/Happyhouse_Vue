@@ -2,7 +2,7 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert variant="secondary" show><h3>회원가입</h3></b-alert>
+        <b-alert variant="secondary" show><h3>회원정보 수정</h3></b-alert>
       </b-col>
     </b-row>
     <b-row>
@@ -13,39 +13,42 @@
           align="center"
         >
           <b-form class="text-left">
-            <b-alert show variant="danger" v-if="isRegisterError">
+            <b-alert show variant="danger" v-if="isModifyError">
               빈 칸을 채워주세요
             </b-alert>
             <b-form-group label="아이디:" label-for="userId">
-              <b-form-input id="userId" v-model="user.userid"></b-form-input>
+              <b-form-input id="userId" v-model="user.userId"></b-form-input>
             </b-form-group>
             <b-form-group label="비밀번호:" label-for="userPwd">
-              <b-form-input id="userPwd" v-model="user.userpwd"></b-form-input>
+              <b-form-input id="userPwd" v-model="user.userPwd"></b-form-input>
             </b-form-group>
             <b-form-group label="이름:" label-for="userName">
               <b-form-input
-                id="username"
-                v-model="user.username"
+                id="userName"
+                v-model="user.userName"
               ></b-form-input>
             </b-form-group>
             <b-form-group label="이메일:" label-for="userEmail">
               <b-form-input
                 id="userEmail"
-                v-model="user.useremail"
+                v-model="user.userEmail"
               ></b-form-input>
             </b-form-group>
             <b-form-group label="전화번호:" label-for="userPhoneNumber">
               <b-form-input
                 id="userPhoneNumber"
-                v-model="user.userphone"
+                v-model="user.userPhoneNumber"
               ></b-form-input>
             </b-form-group>
             <b-button
               type="button"
               variant="success"
               class="m-1"
-              @click="register"
+              @click="modify"
               >확인</b-button
+            >
+            <b-button type="button" variant="danger" class="m-1" @click="remove"
+              >회원탈퇴</b-button
             >
           </b-form>
         </b-card>
@@ -55,41 +58,35 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
-  name: "MemberRegister",
+  name: "MemberModify",
   data() {
     return {
-      isRegisterError: false,
-      user: {
-        userId: "",
-        userPwd: "",
-        userName: "",
-        userEmail: "",
-        userPhoneNumber: "",
-      },
+      isModifyError: false,
+      user: {},
     };
   },
   methods: {
-    register() {
+    ...mapActions(["modifyUser", "deleteUser"]),
+    modify() {
       if (this.isBlankExists) {
         this.showAlert();
       } else {
         //axios post
-        this.registUser(this.user);
-        this.movePage();
+        this.modifyUser(this.user);
       }
     },
 
-    showAlert() {
-      this.isRegisterError = true;
-      setTimeout(() => {
-        this.isRegisterError = false;
-      }, 1000);
+    remove() {
+      this.deleteUser();
     },
 
-    movePage() {
-      this.$router.push({ name: "signIn" });
+    showAlert() {
+      this.isModifyError = true;
+      setTimeout(() => {
+        this.isModifyError = false;
+      }, 1000);
     },
   },
   computed: {
@@ -102,7 +99,22 @@ export default {
         !this.user.userPhoneNumber
       );
     },
-    ...mapActions(["registUser"]),
+    ...mapGetters([
+      "userId",
+      "userPwd",
+      "userName",
+      "userEmail",
+      "userPhoneNumber",
+    ]),
+  },
+  created() {
+    this.user = {
+      userId: this.userId,
+      userPwd: this.userPwd,
+      userName: this.userName,
+      userEmail: this.userEmail,
+      userPhoneNumber: this.userPhoneNumber,
+    };
   },
 };
 </script>

@@ -16,14 +16,19 @@ const routes = [
     component: () => import("@/views/MemberView.vue"),
     children: [
       {
-        path: "singin",
+        path: "signIn",
         name: "signIn",
         component: () => import("@/components/user/MemberLogin.vue"),
       },
       {
-        path: "singup",
+        path: "signUp",
         name: "signUp",
         component: () => import("@/components/user/MemberRegister.vue"),
+      },
+      {
+        path: "modify",
+        name: "modify",
+        component: () => import("@/components/user/MemberModify.vue"),
       },
     ],
   },

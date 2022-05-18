@@ -46,18 +46,27 @@
                 variant="success"
               ></b-icon>
             </template>
-            <b-dropdown-item href="#"
-              ><router-link :to="{ name: 'signUp' }" class="link">
-                회원가입</router-link
+            <b-dropdown-item v-if="session" href="#"
+              ><router-link :to="{ name: 'modify' }" class="link"
+                ><b-icon icon="person-circle"></b-icon> 정보수정</router-link
               ></b-dropdown-item
             >
-            <b-dropdown-item href="#"
+            <b-dropdown-item v-else href="#"
+              ><router-link :to="{ name: 'signUp' }" class="link"
+                ><b-icon icon="person-circle"></b-icon> 회원가입</router-link
+              ></b-dropdown-item
+            >
+            <b-dropdown-item v-if="session" href="#"
               ><router-link
                 :to="{ name: 'signIn' }"
                 class="link"
-                variant="success"
-              >
-                로그인</router-link
+                @click="removeSession"
+                ><b-icon icon="key"></b-icon> 로그아웃
+              </router-link>
+            </b-dropdown-item>
+            <b-dropdown-item v-else href="#"
+              ><router-link :to="{ name: 'signIn' }" class="link"
+                ><b-icon icon="key"></b-icon> 로그인</router-link
               ></b-dropdown-item
             >
           </b-nav-item-dropdown>
@@ -68,8 +77,18 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "HeaderNaviBar",
+  computed: {
+    ...mapState(["session"]),
+  },
+  methods: {
+    ...mapMutations(["REMOVE_SESSION"]),
+    removeSession() {
+      this.REMOVE_SESSION();
+    },
+  },
 };
 </script>
 
