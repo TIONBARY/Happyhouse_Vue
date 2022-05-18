@@ -20,7 +20,11 @@
               <b-form-input id="userId" v-model="user.userid"></b-form-input>
             </b-form-group>
             <b-form-group label="비밀번호:" label-for="userPwd">
-              <b-form-input id="userPwd" v-model="user.userpwd"></b-form-input>
+              <b-form-input
+                id="userPwd"
+                v-model="user.userpwd"
+                type="password"
+              ></b-form-input>
             </b-form-group>
             <b-form-group label="이름:" label-for="userName">
               <b-form-input
