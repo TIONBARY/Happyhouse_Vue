@@ -13,3 +13,4 @@
 |   로그인/로그아웃    |     ✔     |
 |    공지사항 관리     |     ✔     |
 
+<img src="./img/happyhouse_main.png" />
