@@ -16,8 +16,8 @@
 ##View - Component
 - HomeView.vue
 - BoardView.vue
- -> BoardList.vue
-  -> BoardListItem.vue
+ -> BoardList.vue<br>
+  -> BoardListItem.vue<br>
  -> BoardDetail.vue
  -> BoardModify.vue
  -> BoardRegister.vue
