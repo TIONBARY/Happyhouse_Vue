@@ -13,7 +13,7 @@
 
 <br>
 
-##View - Component
+## View - Component
 - HomeView.vue
 - BoardView.vue<br>
  -> BoardList.vue<br>
