@@ -15,17 +15,17 @@
 
 ##View - Component
 - HomeView.vue
-- BoardView.vue
+- BoardView.vue<br>
  -> BoardList.vue<br>
   -> BoardListItem.vue<br>
- -> BoardDetail.vue
- -> BoardModify.vue
- -> BoardRegister.vue
-  -> BoardInputItem.vue
-- MemberView.vue
- -> MemberLogin.vue
- -> MemberModify.vue
- -> MemberRegister.vue
+ -> BoardDetail.vue<br>
+ -> BoardModify.vue<br>
+ -> BoardRegister.vue<br>
+  -> BoardInputItem.vue<br>
+- MemberView.vue<br>
+ -> MemberLogin.vue<br>
+ -> MemberModify.vue<br>
+ -> MemberRegister.vue<br>
 - HouseView.vue
 
 <br>
