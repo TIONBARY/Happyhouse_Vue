@@ -1,31 +1,58 @@
 <template>
   <b-container class="bv-example-row mt-3 text-center">
-    <h3><b-icon icon="house"></b-icon> SSAFY</h3>
-    <b-row>
-      <b-col></b-col>
-      <b-col cols="10">
-        <b-jumbotron
-          bg-variant="muted"
-          text-variant="dark"
-          border-variant="dark"
-        >
-          <template #header>SSAFY Home</template>
+    <h3><b-icon icon="house"></b-icon> HAPPY HOUSE</h3>
+    <hr />
+    <div
+      id="banner"
+      class="mb-4 bg-dark container-2xl position-relative"
+      style="height: 430px"
+    >
+      <!-- Image -->
+      <div class="container-lg">
+        <img src="" alt="" />
+      </div>
+      <div
+        class="position-absolute top-50 start-50 translate-middle"
+        style="min-width: max-content"
+      >
+        <div class="my-3 d-flex flex-column">
+          <span class="text-white h2 fw-bolder m-0"
+            >어떤 집에서 살고 싶으신가요?&nbsp;&nbsp;&nbsp;&nbsp;</span
+          >
+          <span class="text-white h5 fw-normal my-2"
+            >원하는 집의 실거래가를 확인하세요.</span
+          >
+        </div>
 
-          <template #lead>
-            슬기로운 싸피 생활 (:7기편) <br />
-            행운을 부르는 러~~~~키 Seven!!!!!
-          </template>
-
-          <hr class="my-4" />
-
-          <p>Vue + Bootstrap활용.</p>
-          <p>Bootstrap-vue는 버전 <b>4.6.1</b>을 권장합니다.</p>
-          <p><b>BoardList.vue</b>를 바꿔가면서 테스트하세요.</p>
-          <p>Bootstrap의 <b>table</b> 사용법을 익히게됩니다.</p>
-        </b-jumbotron>
-      </b-col>
-      <b-col></b-col>
-    </b-row>
+        <div class="d-flex">
+          <div class="input-group flex-grow-1 border-0 me-2">
+            <select class="form-select" name="category1" id="category1">
+              <option selected>도/광역시</option>
+              <option value="1">서울특별시</option>
+              <option value="2">경기도</option>
+              <option value="3">제주도</option>
+            </select>
+          </div>
+          <div class="input-group flex-grow-1 border-0 me-2">
+            <select class="form-select" name="category2" id="category2">
+              <option selected>시/군/구</option>
+              <option value="1">강남구</option>
+              <option value="2">강동구</option>
+              <option value="3">광진구</option>
+            </select>
+          </div>
+          <div class="input-group flex-grow-1 border-0 me-2">
+            <select class="form-select" name="category2" id="category2">
+              <option selected>동</option>
+              <option value="1">대치동</option>
+              <option value="2">잠실동</option>
+              <option value="3">익선동</option>
+            </select>
+          </div>
+          <b-button><b-icon icon="search"></b-icon></b-button>
+        </div>
+      </div>
+    </div>
   </b-container>
 </template>
 
