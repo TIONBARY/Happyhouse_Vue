@@ -27,11 +27,6 @@
             ></b-nav-item
           >
           <b-nav-item href="#"
-            ><router-link :to="{ name: 'instagram' }" class="link">
-              인별그램</router-link
-            ></b-nav-item
-          >
-          <b-nav-item href="#"
             ><router-link :to="{ name: 'house' }" class="link">
               아파트정보</router-link
             ></b-nav-item
