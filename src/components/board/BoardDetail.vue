@@ -1,6 +1,7 @@
 <template>
   <b-container class="bv-example-row mt-3">
     <b-row class="mb-1">
+      <b-col></b-col>
       <b-col>
         <b-card
           :header-html="`<h3>${article.articleno}.
@@ -14,8 +15,10 @@
           </b-card-body>
         </b-card>
       </b-col>
+      <b-col></b-col>
     </b-row>
     <b-row class="mb-1">
+      <b-col></b-col>
       <b-col class="text-left">
         <b-button variant="outline-primary" @click="listArticle">목록</b-button>
       </b-col>
@@ -32,6 +35,7 @@
           >글삭제</b-button
         >
       </b-col>
+      <b-col></b-col>
     </b-row>
   </b-container>
 </template>

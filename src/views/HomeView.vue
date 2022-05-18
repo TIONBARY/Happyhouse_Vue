@@ -41,14 +41,6 @@
               <option value="3">광진구</option>
             </select>
           </div>
-          <div class="input-group flex-grow-1 border-0 me-2">
-            <select class="form-select" name="category2" id="category2">
-              <option selected>동</option>
-              <option value="1">대치동</option>
-              <option value="2">잠실동</option>
-              <option value="3">익선동</option>
-            </select>
-          </div>
           <b-button><b-icon icon="search"></b-icon></b-button>
         </div>
       </div>
