@@ -1,24 +1,15 @@
-# vue-board-bootstrap
+# HappyHouse: 권덕주, 김시언
 
-## Project setup
-```
-npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 구현 여부
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### 요구 사항
 
-### Lints and fixes files
-```
-npm run lint
-```
+|      구현 기능      | 구현 여부 |
+| :-----------------: | :-------: |
+|      메인 화면       |     ✔     |
+| 실거래가 검색, 결과   |     ✔     |
+|      회원 관리       |     ✔     |
+|   로그인/로그아웃    |     ✔     |
+|    공지사항 관리     |     ✔     |
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
