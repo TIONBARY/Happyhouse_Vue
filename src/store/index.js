@@ -11,43 +11,9 @@ export default new Vuex.Store({
     guguns: [{ value: null, text: "선택하세요" }],
     houses: [],
     house: null,
-    user: {
-      userId: "a",
-      userPwd: "b",
-      userName: "c",
-      userEmail: "d",
-      userPhoneNumber: "e",
-    },
-    session: false,
   },
-  getters: {
-    userId(state) {
-      return state.user.userId;
-    },
-    userPwd(state) {
-      return state.user.userPwd;
-    },
-    userName(state) {
-      return state.user.userName;
-    },
-    userEmail(state) {
-      return state.user.userEmail;
-    },
-    userPhoneNumber(state) {
-      return state.user.userPhoneNumber;
-    },
-  },
+  getters: {},
   mutations: {
-    SET_USER(state, user) {
-      state.user.userId = user.userId;
-      state.user.userPwd = user.userPwd;
-    },
-    SET_SESSION(state) {
-      state.session = true;
-    },
-    REMOVE_SESSION(state) {
-      state.session = false;
-    },
     SET_SIDO_LIST(state, sidos) {
       sidos.forEach((sido) => {
         state.sidos.push({ value: sido.sidoCode, text: sido.sidoName });

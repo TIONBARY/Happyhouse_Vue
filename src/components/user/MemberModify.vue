@@ -16,25 +16,25 @@
             <b-alert show variant="danger" v-if="isModifyError">
               빈 칸을 채워주세요
             </b-alert>
-            <b-form-group label="아이디:" label-for="userId">
+            <b-form-group>
               <b-form-input id="userId" v-model="user.userId"></b-form-input>
             </b-form-group>
-            <b-form-group label="비밀번호:" label-for="userPwd">
+            <b-form-group>
               <b-form-input id="userPwd" v-model="user.userPwd"></b-form-input>
             </b-form-group>
-            <b-form-group label="이름:" label-for="userName">
+            <b-form-group>
               <b-form-input
                 id="userName"
                 v-model="user.userName"
               ></b-form-input>
             </b-form-group>
-            <b-form-group label="이메일:" label-for="userEmail">
+            <b-form-group>
               <b-form-input
                 id="userEmail"
                 v-model="user.userEmail"
               ></b-form-input>
             </b-form-group>
-            <b-form-group label="전화번호:" label-for="userPhoneNumber">
+            <b-form-group>
               <b-form-input
                 id="userPhoneNumber"
                 v-model="user.userPhoneNumber"

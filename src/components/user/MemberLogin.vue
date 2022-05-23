@@ -2,19 +2,23 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert variant="secondary" show><h3>로그인</h3></b-alert>
+        <h3>로그인</h3>
       </b-col>
     </b-row>
     <b-row>
       <b-col></b-col>
-      <b-col cols="8">
-        <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
+      <b-col cols="6">
+        <b-card
+          class="text-center mt-3 card border-success"
+          style="max-width: 35rem; width: 35rem"
+          align="center"
+        >
           <b-form class="text-left">
             <b-alert show variant="danger" v-if="isLoginError"
               >아이디 또는 비밀번호를 확인하세요.</b-alert
             >
-            <b-form-group label="아이디:" label-for="userId">
-              <b-form-input
+            <b-form-group>
+              <!-- <b-form-input
                 id="userId"
                 v-model="user.userId"
                 required
@@ -22,23 +26,53 @@
                 @focus="idInputMsg = ''"
                 @blur="idInputMsg = '아이디 입력'"
                 @keyup.enter="confirm"
-              ></b-form-input>
+              ></b-form-input> -->
+              <input
+                class="tf_g"
+                name="userId"
+                v-model="user.userId"
+                required
+                :placeholder="idInputMsg"
+                @focus="idInputMsg = ''"
+                @blur="idInputMsg = '아이디를 입력하세요'"
+                @keyup.enter="confirm"
+              />
             </b-form-group>
-            <b-form-group label="비밀번호:" label-for="userPwd">
-              <b-form-input
+            <b-form-group>
+              <!-- <b-form-input
                 type="password"
                 id="userPwd"
                 v-model="user.userPwd"
                 required
                 placeholder="비밀번호 입력...."
                 @keyup.enter="confirm"
-              ></b-form-input>
+              ></b-form-input> -->
+              <input
+                class="tf_g"
+                name="userPwd"
+                v-model="user.userPwd"
+                required
+                :placeholder="pwdInputMsg"
+                @focus="pwdInputMsg = ''"
+                @blur="pwdInputMsg = '비밀번호를 입력하세요'"
+                @keyup.enter="confirm"
+              />
             </b-form-group>
-            <b-button
-              type="button"
-              variant="primary"
-              class="m-1"
-              @click="confirm"
+
+            <div class="checkboxDiv">
+              <input type="checkbox" id="check" />
+              <label for="check"></label>
+              <span class="checkboxText">로그인 상태 유지</span>
+            </div>
+            <button class="btn_g" type="button">로그인</button>
+
+            <span class="line_or"><span class="txt_or">또는</span></span>
+
+            <div class="socialLoginDiv">
+              <img src="@/assets/kakao_login_image.png" alt="" />
+              <img src="@/assets/naver_login_image.png" alt="" />
+            </div>
+            <!-- <b-button type="button" variant="primary" class="m-1" @click="login"
               >로그인</b-button
             >
             <b-button
@@ -47,7 +81,7 @@
               class="m-1"
               @click="movePage"
               >회원가입</b-button
-            >
+            > -->
           </b-form>
         </b-card>
       </b-col>
@@ -57,38 +91,150 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
+
+const memberStore = "memberStore";
 export default {
   name: "MemberLogin",
   data() {
     return {
-      isLoginError: false,
+      idInputMsg: "아이디를 입력하세요",
+      pwdInputMsg: "비밀번호를 입력하세요",
       user: {
-        userId: "",
-        userPwd: "",
+        userId: null,
+        userPwd: null,
       },
-      idInputMsg: "아이디 입력",
     };
   },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "isLoginError"]),
+  },
   methods: {
-    ...mapActions(["setUser"]),
-    ...mapMutations(["SET_SESSION"]),
-    confirm() {
-      if (this.user.userId === "ssafy" && this.user.userPwd === "1111") {
+    ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    async confirm() {
+      await this.userConfirm(this.user);
+      let token = sessionStorage.getItem("access-token");
+      if (this.isLogin) {
+        await this.getUserInfo(token);
         this.$router.push({ name: "home" });
-        alert("로그인!!!");
-        this.setUser(this.user);
-        this.SET_SESSION();
-      } else {
-        alert("로그인 실패");
       }
     },
     movePage() {
-      this.$router.push({ name: "signUp" });
+      this.$router.push({ name: "signup" });
     },
   },
-  computed: {},
 };
 </script>
 
-<style></style>
+<style scoped>
+.tf_g {
+  width: 80%;
+  height: 48px;
+  border-style: solid;
+  border-width: 0 0 1.5px 0;
+  border-color: #ebebeb;
+  padding: 11px 70px 8px 0;
+  color: #252525;
+  outline: 0;
+  border-radius: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+.btn_g {
+  display: block;
+  width: 80%;
+  height: 50px;
+  border: 0;
+  border-radius: 4px;
+  margin: auto;
+  font-size: 18px;
+  color: #191919;
+  background-color: #b4e197;
+  /* background-color: #f9f3ee; */
+  /* background-color: #fee500; */
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #999;
+  appearance: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 10%;
+  float: left;
+}
+
+input[id="check"]:checked + label::after {
+  content: "✔";
+  position: relative;
+  float: left;
+}
+
+.checkboxText {
+  float: left;
+  margin-left: 10px;
+  font-size: 15px;
+}
+
+.checkboxDiv {
+  margin-bottom: 40px;
+}
+
+.socialLoginDiv {
+  width: 80%;
+  margin: auto;
+  height: 50px;
+}
+
+img:nth-child(1) {
+  height: 50px;
+  float: left;
+}
+
+img:nth-child(2) {
+  height: 50px;
+  float: right;
+}
+
+.line_or {
+  position: relative;
+  display: block;
+  width: 80%;
+  margin: auto;
+  padding: 15px 0;
+  font-size: 0;
+  line-height: 0;
+}
+
+.line_or::before {
+  display: inline-block;
+  width: calc(50% - 20px);
+  height: 1px;
+  margin: 8px 0;
+  background-color: rgba(0, 0, 0, 0.06);
+  vertical-align: top;
+  content: "";
+}
+
+.line_or::after {
+  display: inline-block;
+  width: calc(50% - 20px);
+  height: 1px;
+  margin: 8px 0;
+  background-color: rgba(0, 0, 0, 0.06);
+  vertical-align: top;
+  content: "";
+}
+
+.line_or .txt_or {
+  display: inline-block;
+  width: 40px;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.3);
+}
+</style>
