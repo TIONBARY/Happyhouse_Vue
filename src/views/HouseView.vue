@@ -163,6 +163,7 @@
 </template>
 <script>
 /* eslint-disable */
+import { getSiguList, getDongList } from "@/api/house.js";
 import axios from "axios";
 let map;
 export default {
@@ -231,45 +232,36 @@ export default {
     },
   },
   methods: {
-    changeSelect1() {
-      axios
-        .get(
-          `https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=${this.selected1}*000000`
-        )
-        .then(({ data }) => {
-          this.options2 = [{ value: "init", text: "시/군/구" }];
-          this.selected2 = "init";
-          data.regcodes.forEach((item, index) => {
-            let tempLocNames = item.name.split(" ");
-            let currentLocName = tempLocNames[tempLocNames.length - 1];
-            if (index != 0) {
-              this.options2.push({
-                value: item.code.slice(0, 4),
-                text: currentLocName,
-              });
-            }
+    async changeSelect1() {
+      const { data } = await getSiguList(this.selected1);
+
+      this.options2 = [{ value: "init", text: "시/군/구" }];
+      this.selected2 = "init";
+      data.regcodes.forEach((item, index) => {
+        let tempLocNames = item.name.split(" ");
+        let currentLocName = tempLocNames[tempLocNames.length - 1];
+        if (index != 0) {
+          this.options2.push({
+            value: item.code.slice(0, 4),
+            text: currentLocName,
           });
-        });
+        }
+      });
     },
-    changeSelect2() {
-      axios
-        .get(
-          `https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=${this.selected2}*`
-        )
-        .then(({ data }) => {
-          this.options3 = [{ value: "init", text: "동" }];
-          this.selected3 = "init";
-          data.regcodes.forEach((item, index) => {
-            let tempLocNames = item.name.split(" ");
-            let currentLocName = tempLocNames[tempLocNames.length - 1];
-            if (index != 0) {
-              this.options3.push({
-                value: { code: item.code.slice(0, 5), name: currentLocName },
-                text: currentLocName,
-              });
-            }
+    async changeSelect2() {
+      const { data } = await getDongList(this.selected2);
+      this.options3 = [{ value: "init", text: "동" }];
+      this.selected3 = "init";
+      data.regcodes.forEach((item, index) => {
+        let tempLocNames = item.name.split(" ");
+        let currentLocName = tempLocNames[tempLocNames.length - 1];
+        if (index != 0) {
+          this.options3.push({
+            value: { code: item.code.slice(0, 5), name: currentLocName },
+            text: currentLocName,
           });
-        });
+        }
+      });
     },
     search() {
       if (

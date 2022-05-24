@@ -18,19 +18,10 @@
               >아이디 또는 비밀번호를 확인하세요.</b-alert
             >
             <b-form-group>
-              <!-- <b-form-input
-                id="userId"
-                v-model="user.userId"
-                required
-                :placeholder="idInputMsg"
-                @focus="idInputMsg = ''"
-                @blur="idInputMsg = '아이디 입력'"
-                @keyup.enter="confirm"
-              ></b-form-input> -->
               <input
                 class="tf_g"
-                name="userId"
-                v-model="user.userId"
+                name="userid"
+                v-model="user.userid"
                 required
                 :placeholder="idInputMsg"
                 @focus="idInputMsg = ''"
@@ -39,18 +30,11 @@
               />
             </b-form-group>
             <b-form-group>
-              <!-- <b-form-input
-                type="password"
-                id="userPwd"
-                v-model="user.userPwd"
-                required
-                placeholder="비밀번호 입력...."
-                @keyup.enter="confirm"
-              ></b-form-input> -->
               <input
                 class="tf_g"
-                name="userPwd"
-                v-model="user.userPwd"
+                name="userpwd"
+                type="password"
+                v-model="user.userpwd"
                 required
                 :placeholder="pwdInputMsg"
                 @focus="pwdInputMsg = ''"
@@ -60,11 +44,10 @@
             </b-form-group>
 
             <div class="checkboxDiv">
-              <input type="checkbox" id="check" />
-              <label for="check"></label>
+              <input type="checkbox" />
               <span class="checkboxText">로그인 상태 유지</span>
             </div>
-            <button class="btn_g" type="button">로그인</button>
+            <button class="btn_g" type="button" @click="confirm">로그인</button>
 
             <span class="line_or"><span class="txt_or">또는</span></span>
 
@@ -72,16 +55,6 @@
               <img src="@/assets/kakao_login_image.png" alt="" />
               <img src="@/assets/naver_login_image.png" alt="" />
             </div>
-            <!-- <b-button type="button" variant="primary" class="m-1" @click="login"
-              >로그인</b-button
-            >
-            <b-button
-              type="button"
-              variant="success"
-              class="m-1"
-              @click="movePage"
-              >회원가입</b-button
-            > -->
           </b-form>
         </b-card>
       </b-col>
@@ -92,7 +65,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-
 const memberStore = "memberStore";
 export default {
   name: "MemberLogin",
@@ -101,8 +73,8 @@ export default {
       idInputMsg: "아이디를 입력하세요",
       pwdInputMsg: "비밀번호를 입력하세요",
       user: {
-        userId: null,
-        userPwd: null,
+        userid: null,
+        userpwd: null,
       },
     };
   },
@@ -113,9 +85,9 @@ export default {
     ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
     async confirm() {
       await this.userConfirm(this.user);
-      let token = sessionStorage.getItem("access-token");
+      //let token = sessionStorage.getItem("access-token");
       if (this.isLogin) {
-        await this.getUserInfo(token);
+        //await this.getUserInfo(token);
         this.$router.push({ name: "home" });
       }
     },
@@ -167,10 +139,8 @@ input[type="checkbox"] {
   float: left;
 }
 
-input[id="check"]:checked + label::after {
-  content: "✔";
-  position: relative;
-  float: left;
+input[type="checkbox"]:checked {
+  background-color: #191919;
 }
 
 .checkboxText {

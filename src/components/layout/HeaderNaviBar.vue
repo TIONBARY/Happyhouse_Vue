@@ -41,7 +41,7 @@
                 variant="success"
               ></b-icon>
             </template>
-            <b-dropdown-item v-if="session" href="#"
+            <b-dropdown-item v-if="currentUserId" href="#"
               ><router-link :to="{ name: 'modify' }" class="link"
                 ><b-icon icon="person-circle"></b-icon> 정보수정</router-link
               ></b-dropdown-item
@@ -51,11 +51,11 @@
                 ><b-icon icon="person-circle"></b-icon> 회원가입</router-link
               ></b-dropdown-item
             >
-            <b-dropdown-item v-if="session" href="#"
+            <b-dropdown-item v-if="currentUserId" href="#"
               ><router-link
+                @click.native="signOut"
                 :to="{ name: 'signIn' }"
                 class="link"
-                @click="removeSession"
                 ><b-icon icon="key"></b-icon> 로그아웃
               </router-link>
             </b-dropdown-item>
@@ -72,17 +72,15 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapActions, mapState } from "vuex";
+const memberStore = "memberStore";
 export default {
   name: "HeaderNaviBar",
   computed: {
-    ...mapState(["session"]),
+    ...mapState(memberStore, ["currentUserId"]),
   },
   methods: {
-    ...mapMutations(["REMOVE_SESSION"]),
-    removeSession() {
-      this.REMOVE_SESSION();
-    },
+    ...mapActions(memberStore, ["signOut"]),
   },
 };
 </script>

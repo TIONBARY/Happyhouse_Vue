@@ -17,28 +17,19 @@
               빈 칸을 채워주세요
             </b-alert>
             <b-form-group>
-              <b-form-input id="userId" v-model="user.userId"></b-form-input>
+              <b-form-input id="userId" v-model="user.userid"></b-form-input>
             </b-form-group>
             <b-form-group>
-              <b-form-input id="userPwd" v-model="user.userPwd"></b-form-input>
+              <b-form-input id="userPwd" v-model="user.userpwd"></b-form-input>
             </b-form-group>
             <b-form-group>
               <b-form-input
                 id="userName"
-                v-model="user.userName"
+                v-model="user.username"
               ></b-form-input>
             </b-form-group>
             <b-form-group>
-              <b-form-input
-                id="userEmail"
-                v-model="user.userEmail"
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group>
-              <b-form-input
-                id="userPhoneNumber"
-                v-model="user.userPhoneNumber"
-              ></b-form-input>
+              <b-form-input id="userEmail" v-model="user.email"></b-form-input>
             </b-form-group>
             <b-button
               type="button"
@@ -58,7 +49,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   name: "MemberModify",
   data() {
@@ -68,18 +61,23 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["modifyUser", "deleteUser"]),
+    ...mapActions(memberStore, [
+      "modifyCurrentUser",
+      "deleteCurrentUser",
+      "getUserInfo",
+    ]),
     modify() {
       if (this.isBlankExists) {
         this.showAlert();
       } else {
-        //axios post
-        this.modifyUser(this.user);
+        this.modifyCurrentUser(this.user);
+        this.$router.push({ name: "home" });
       }
     },
 
     remove() {
-      this.deleteUser();
+      this.deleteCurrentUser(this.currentUserId);
+      this.$router.push({ name: "home" });
     },
 
     showAlert() {
@@ -92,28 +90,25 @@ export default {
   computed: {
     isBlankExists: function () {
       return (
-        !this.user.userId ||
-        !this.user.userPwd ||
-        !this.user.userName ||
-        !this.user.userEmail ||
-        !this.user.userPhoneNumber
+        !this.user.userid ||
+        !this.user.userpwd ||
+        !this.user.username ||
+        !this.user.email
       );
     },
-    ...mapGetters([
-      "userId",
-      "userPwd",
-      "userName",
-      "userEmail",
-      "userPhoneNumber",
-    ]),
+    ...mapGetters(memberStore, ["checkUserInfo", "checkUserId"]),
+    ...mapState(memberStore, ["userInfo", "currentUserId"]),
   },
-  created() {
+  async created() {
+    if (this.currentUserId.length === 0) {
+      this.$router.push({ name: "home" });
+    }
+    await this.getUserInfo(this.currentUserId);
     this.user = {
-      userId: this.userId,
-      userPwd: this.userPwd,
-      userName: this.userName,
-      userEmail: this.userEmail,
-      userPhoneNumber: this.userPhoneNumber,
+      userid: this.userInfo ? this.userInfo.userid : "",
+      userpwd: this.userInfo ? this.userInfo.userpwd : "",
+      username: this.userInfo ? this.userInfo.username : "",
+      email: this.userInfo ? this.userInfo.email : "",
     };
   },
 };
