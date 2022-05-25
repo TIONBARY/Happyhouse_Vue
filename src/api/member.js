@@ -33,4 +33,16 @@ async function registerUser(user, success, fail) {
     .catch(fail);
 }
 
-export { login, findById, logout, deleteUser, modifyUser, registerUser };
+async function signOutKakaoUser(token, success, fail) {
+  await api.post(`user/signout/kakao`, token).then(success).catch(fail);
+}
+
+export {
+  login,
+  findById,
+  logout,
+  deleteUser,
+  modifyUser,
+  registerUser,
+  signOutKakaoUser,
+};

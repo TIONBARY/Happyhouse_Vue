@@ -70,6 +70,11 @@ const routes = [
     name: "house",
     component: () => import("@/views/HouseView.vue"),
   },
+  {
+    path: "/session",
+    name: "session",
+    component: () => import("@/views/CheckSession.vue"),
+  },
 ];
 
 const router = new VueRouter({

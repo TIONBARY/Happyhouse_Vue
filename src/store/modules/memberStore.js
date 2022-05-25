@@ -8,6 +8,7 @@ import {
   deleteUser,
   modifyUser,
   registerUser,
+  signOutKakaoUser,
 } from "@/api/member.js";
 
 const memberStore = {
@@ -15,8 +16,10 @@ const memberStore = {
   state: {
     isLogin: false,
     isLoginError: false,
+    loginErrMsg: "",
     userInfo: { userid: "", userpwd: "", username: "", email: "" },
     currentUserId: "",
+    kakaoToken: "",
   },
   getters: {
     checkUserInfo: function (state) {
@@ -25,6 +28,9 @@ const memberStore = {
     checkUserId: function (state) {
       return state.currentUserId;
     },
+    getKakaoToken: function (state) {
+      return state.kakaoToken;
+    },
   },
   mutations: {
     SET_IS_LOGIN: (state, isLogin) => {
@@ -32,6 +38,9 @@ const memberStore = {
     },
     SET_IS_LOGIN_ERROR: (state, isLoginError) => {
       state.isLoginError = isLoginError;
+    },
+    SET_LOGIN_ERR_MSG: (state, message) => {
+      state.loginErrMsg = message;
     },
     SET_USER_INFO: (state, userInfo) => {
       state.isLogin = true;
@@ -44,6 +53,10 @@ const memberStore = {
       state.isLogin = false;
       state.userInfo = null;
       state.currentUserId = "";
+      state.kakaoToken = "";
+    },
+    SET_KAKAO_TOKEN: (state, token) => {
+      state.kakaoToken = token;
     },
   },
   actions: {
@@ -59,6 +72,12 @@ const memberStore = {
           } else {
             commit("SET_IS_LOGIN", false);
             commit("SET_IS_LOGIN_ERROR", true);
+            commit("SET_LOGIN_ERR_MSG", response.data.message);
+            setTimeout(() => {
+              commit("SET_IS_LOGIN_ERROR", false);
+              this.isRegisterError = false;
+              this.registerErrorMsg = "빈 칸이 있는지 확인하세요.";
+            }, 2000);
           }
         },
         (error) => {
@@ -139,6 +158,14 @@ const memberStore = {
           console.log(error);
         }
       );
+    },
+    async signOutKakaoUser({ commit }, token) {
+      await signOutKakaoUser(token, () => {
+        commit("SIGN_OUT");
+      }),
+        (error) => {
+          console.log(error);
+        };
     },
   },
 };

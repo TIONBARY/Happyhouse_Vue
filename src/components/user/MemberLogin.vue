@@ -14,9 +14,9 @@
           align="center"
         >
           <b-form class="text-left">
-            <b-alert show variant="danger" v-if="isLoginError"
-              >아이디 또는 비밀번호를 확인하세요.</b-alert
-            >
+            <b-alert show variant="danger" v-if="isLoginError">{{
+              loginErrMsg
+            }}</b-alert>
             <b-form-group>
               <input
                 class="tf_g"
@@ -52,8 +52,22 @@
             <span class="line_or"><span class="txt_or">또는</span></span>
 
             <div class="socialLoginDiv">
-              <img src="@/assets/kakao_login_image.png" alt="" />
-              <img src="@/assets/naver_login_image.png" alt="" />
+              <a
+                href="https://kauth.kakao.com/oauth/authorize?client_id=46889a8d5dfaadd88106dc2ba1745dc6&redirect_uri=http://localhost:9999/vue/user/kakao&response_type=code"
+              >
+                <img
+                  src="@/assets/kakao_login_image.png"
+                  alt=""
+                  class="kakaoLogin"
+                />
+              </a>
+              <a href="">
+                <img
+                  src="@/assets/naver_login_image.png"
+                  alt=""
+                  class="naverLogin"
+                />
+              </a>
             </div>
           </b-form>
         </b-card>
@@ -79,7 +93,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(memberStore, ["isLogin", "isLoginError"]),
+    ...mapState(memberStore, ["isLogin", "isLoginError", "loginErrMsg"]),
   },
   methods: {
     ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
@@ -159,12 +173,12 @@ input[type="checkbox"]:checked {
   height: 50px;
 }
 
-img:nth-child(1) {
+.kakaoLogin {
   height: 50px;
   float: left;
 }
 
-img:nth-child(2) {
+.naverLogin {
   height: 50px;
   float: right;
 }

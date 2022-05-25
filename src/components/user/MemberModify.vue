@@ -8,29 +8,27 @@
     <b-row>
       <b-col align="center">
         <b-card
-          class="text-center mt-3"
-          style="max-width: 40rem"
+          class="text-center mt-3 card border-success"
+          style="max-width: 35rem; width: 35rem"
           align="center"
         >
           <b-form class="text-left">
-            <b-alert show variant="danger" v-if="isModifyError">
-              빈 칸을 채워주세요
-            </b-alert>
+            <b-alert show variant="danger" v-if="isModifyError"
+              >빈 칸을 채워주세요.</b-alert
+            >
             <b-form-group>
-              <b-form-input id="userId" v-model="user.userid"></b-form-input>
+              <input class="tf_g" v-model="user.userid" />
             </b-form-group>
             <b-form-group>
-              <b-form-input id="userPwd" v-model="user.userpwd"></b-form-input>
+              <input class="tf_g" v-model="user.userpwd" />
             </b-form-group>
             <b-form-group>
-              <b-form-input
-                id="userName"
-                v-model="user.username"
-              ></b-form-input>
+              <input class="tf_g" v-model="user.username" />
             </b-form-group>
             <b-form-group>
-              <b-form-input id="userEmail" v-model="user.email"></b-form-input>
+              <input class="tf_g" v-model="user.email" />
             </b-form-group>
+
             <b-button
               type="button"
               variant="success"
@@ -114,4 +112,19 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.tf_g {
+  width: 80%;
+  height: 48px;
+  border-style: solid;
+  border-width: 0 0 1.5px 0;
+  border-color: #ebebeb;
+  padding: 11px 70px 8px 0;
+  color: #252525;
+  outline: 0;
+  border-radius: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+</style>

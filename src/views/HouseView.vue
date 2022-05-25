@@ -45,6 +45,12 @@
       >
         <b-icon icon="search"></b-icon>
       </button>
+      <img
+        src="@/assets/mic1.png"
+        @click="voiceInput"
+        style="width: 60px; padding-left: 20px"
+        alt=""
+      />
     </div>
 
     <!-- Contents -->
@@ -82,19 +88,12 @@
       <!-- Modal -->
       <b-modal
         id="detailed-info"
-        class="modal fade"
         tabindex="-1"
         aria-labelledby="detailedInfoLabel"
         aria-hidden="true"
+        title="상세정보"
+        hide-header-close
       >
-        <h5 class="modal-title" id="detailedInfoLabel">상세정보</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-
         <div class="modal-body">
           <!-- 로드되는 부분 -->
           <div style="font-weight: bold">{{ currentItem.name }}</div>
@@ -197,7 +196,18 @@ export default {
       items: [],
       currentItem: {},
       map: null,
+      isOn: false,
+      on: "/@/assets/mic2.png",
+      off: "/@/assets/mic1.png",
+      searchWords: "",
+      recognition: {},
+      name1: "",
+      name2: "",
+      name3: "",
     };
+  },
+  created() {
+    this.voiceSearchReady();
   },
   mounted() {
     if (!window.kakao || !window.kakao.maps) {
@@ -414,6 +424,40 @@ export default {
           }
         );
       }
+    },
+    voiceSearchReady() {
+      window.SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      this.recognition = new window.SpeechRecognition();
+      this.recognition.interimResults = true;
+      console.log(this.recognition);
+      this.recognition.addEventListener("result", (e) => {
+        this.searchWords = e.results[0][0].transcript;
+        const words = this.searchWords.split(" ");
+        this.name1 = words[0].trim();
+        this.name2 = words[1].trim();
+        this.name3 = words[2].trim();
+      });
+    },
+    async voiceInput() {
+      this.isOn = true;
+      setTimeout(async () => {
+        this.isOn = false;
+        this.recognition.stop();
+        this.selected1 = this.options1.find((data) => {
+          return data.text === this.name1;
+        }).value;
+        await this.changeSelect1();
+        this.selected2 = this.options2.find((data) => {
+          return data.text === this.name2;
+        }).value;
+        await this.changeSelect2();
+        this.selected3 = this.options3.find((data) => {
+          return data.text === this.name3;
+        }).value;
+        this.search();
+      }, 5000);
+      this.recognition.start();
     },
   },
 };

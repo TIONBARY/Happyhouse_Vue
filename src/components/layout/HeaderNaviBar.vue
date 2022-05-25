@@ -53,7 +53,7 @@
             >
             <b-dropdown-item v-if="currentUserId" href="#"
               ><router-link
-                @click.native="signOut"
+                @click.native="logout"
                 :to="{ name: 'signIn' }"
                 class="link"
                 ><b-icon icon="key"></b-icon> 로그아웃
@@ -72,15 +72,23 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 const memberStore = "memberStore";
 export default {
   name: "HeaderNaviBar",
   computed: {
     ...mapState(memberStore, ["currentUserId"]),
+    ...mapGetters(memberStore, ["getKakaoToken"]),
   },
   methods: {
-    ...mapActions(memberStore, ["signOut"]),
+    ...mapActions(memberStore, ["signOut", "signOutKakaoUser"]),
+    logout() {
+      if (this.getKakaoToken) {
+        this.signOutKakaoUser(this.getKakaoToken);
+      } else {
+        this.signOut();
+      }
+    },
   },
 };
 </script>
