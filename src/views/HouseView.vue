@@ -1,5 +1,5 @@
 <template>
-  <div style="height: calc(100% - 143px)">
+  <div style="height: calc(100% - 200px)">
     <div
       class="w-100 bg-white shadow-sm p-3 d-flex"
       style="min-width: max-content"
@@ -257,8 +257,10 @@ export default {
     /* global kakao */
     script.addEventListener("load", () => {
       kakao.maps.load(() => {
-        this.loadMap();
-        this.showCenterLocation("서울특별시 강남구 대치동");
+        navigator.geolocation.getCurrentPosition(
+          this.locationLoadSuccess,
+          this.locationLoadError
+        );
       });
     });
   },
@@ -280,6 +282,40 @@ export default {
     },
   },
   methods: {
+    locationLoadSuccess(pos) {
+      // 현재 위치 받아오기
+
+      const container = document.getElementById("map");
+
+      var currentPos = new kakao.maps.LatLng(
+        pos.coords.latitude,
+        pos.coords.longitude
+      );
+
+      let options = {
+        center: currentPos,
+        level: 3,
+      };
+
+      map = new window.kakao.maps.Map(container, options);
+
+      // 지도 이동(기존 위치와 가깝다면 부드럽게 이동)
+      map.panTo(currentPos);
+
+      // 마커 생성
+      var marker = new kakao.maps.Marker({
+        position: currentPos,
+      });
+
+      // 기존에 마커가 있다면 제거
+      marker.setMap(null);
+      marker.setMap(map);
+    },
+
+    locationLoadError(pos) {
+      alert("위치 정보를 가져오는데 실패했습니다.");
+    },
+
     async changeSelect1() {
       const { data } = await getSiguList(this.selected1);
 
