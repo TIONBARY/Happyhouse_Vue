@@ -4,7 +4,7 @@
       <b-navbar-brand href="#">
         <router-link to="/">
           <img
-            src="@/assets/happyhouse_logo.png"
+            src="@/assets/housing_logo.png"
             class="d-inline-block align-middle"
             width="100px"
             alt="ssafy"
