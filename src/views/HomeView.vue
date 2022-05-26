@@ -1,6 +1,6 @@
 <template>
   <b-container class="bv-example-row mt-3 text-center">
-    <h3><b-icon icon="house"></b-icon> HAPPY HOUSE</h3>
+    <img src="@/assets/housing_logo_white.png" width="100px" />
     <hr />
     <div
       id="banner"
