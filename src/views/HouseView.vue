@@ -50,7 +50,7 @@
         style="max-width: 160px"
       >
         <img
-          src="@/assets/mic1.png"
+          :src="require(`@/assets/${isOn ? on : off}`)"
           @click="voiceInput"
           style="width: 60px; padding-left: 20px"
           alt=""
@@ -216,8 +216,8 @@ export default {
       currentItem: {},
       map: null,
       isOn: false,
-      on: "/@/assets/mic2.png",
-      off: "/@/assets/mic1.png",
+      on: "mic2.png",
+      off: "mic1.png",
       searchWords: "",
       recognition: {},
       name1: "",
@@ -250,19 +250,17 @@ export default {
     this.voiceSearchReady();
   },
   mounted() {
-    if (!window.kakao || !window.kakao.maps) {
-      const script = document.createElement("script");
-      const URL = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_KAKAO_KEY}&libraries=services`;
-      script.src = URL;
-      document.head.appendChild(script);
-      /* global kakao */
-      script.addEventListener("load", () => {
-        kakao.maps.load(() => {
-          this.loadMap();
-          this.showCenterLocation("서울특별시 강남구 대치동");
-        });
+    const script = document.createElement("script");
+    const URL = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_KAKAO_KEY}&libraries=services`;
+    script.src = URL;
+    document.head.appendChild(script);
+    /* global kakao */
+    script.addEventListener("load", () => {
+      kakao.maps.load(() => {
+        this.loadMap();
+        this.showCenterLocation("서울특별시 강남구 대치동");
       });
-    }
+    });
   },
   computed: {
     selectedText1: function () {
@@ -470,7 +468,6 @@ export default {
         window.SpeechRecognition || window.webkitSpeechRecognition;
       this.recognition = new window.SpeechRecognition();
       this.recognition.interimResults = true;
-      console.log(this.recognition);
       this.recognition.addEventListener("result", (e) => {
         this.searchWords = e.results[0][0].transcript;
         const words = this.searchWords.split(" ");
@@ -484,6 +481,7 @@ export default {
       setTimeout(async () => {
         this.isOn = false;
         this.recognition.stop();
+        console.log(this.name1, this.name2, this.name3);
         this.selected1 = this.options1.find((data) => {
           return data.text === this.name1;
         }).value;
@@ -515,7 +513,7 @@ export default {
     // 키워드 검색 완료 시 호출되는 콜백함수 입니다
     placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
-        for (const i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
           this.displayMarker(data[i]);
         }
       }
