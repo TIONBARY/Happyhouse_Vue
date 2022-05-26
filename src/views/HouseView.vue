@@ -45,12 +45,29 @@
       >
         <b-icon icon="search"></b-icon>
       </button>
-      <img
-        src="@/assets/mic1.png"
-        @click="voiceInput"
-        style="width: 60px; padding-left: 20px"
-        alt=""
-      />
+      <div
+        class="input-group flex-grow-1 border-0 me-2"
+        style="max-width: 160px"
+      >
+        <img
+          src="@/assets/mic1.png"
+          @click="voiceInput"
+          style="width: 60px; padding-left: 20px"
+          alt=""
+        />
+      </div>
+      <div
+        class="input-group flex-grow-1 border-0 me-2"
+        style="max-width: 160px"
+      >
+        <b-form-select
+          class="form-select"
+          v-model="selectedCategory"
+          :options="category"
+          @change="changeCategory"
+        >
+        </b-form-select>
+      </div>
     </div>
 
     <!-- Contents -->
@@ -165,6 +182,7 @@
 import { getSiguList, getDongList } from "@/api/house.js";
 import axios from "axios";
 let map;
+let infowindow;
 export default {
   name: "HouseView",
   data() {
@@ -172,6 +190,7 @@ export default {
       selected1: "init",
       selected2: "init",
       selected3: "init",
+      selectedCategory: "init",
       options1: [
         { value: "init", text: "도/광역시" },
         { value: "11", text: "서울특별시" },
@@ -204,6 +223,27 @@ export default {
       name1: "",
       name2: "",
       name3: "",
+      category: [
+        { value: "init", text: "카테고리" },
+        { value: "MT1", text: "대형마트" },
+        { value: "CS2", text: "편의점" },
+        { value: "PS3", text: "어린이집" },
+        { value: "SC4", text: "학교" },
+        { value: "AC5", text: "학원" },
+        { value: "PK6", text: "주차장" },
+        { value: "OL7", text: "주유소" },
+        { value: "SW8", text: "지하철역" },
+        { value: "BK9", text: "은행" },
+        { value: "CT1", text: "문화시설" },
+        { value: "AG2", text: "중개업소" },
+        { value: "PO3", text: "공공기관" },
+        { value: "AT4", text: "관광명소" },
+        { value: "AD5", text: "숙박" },
+        { value: "FD6", text: "음식점" },
+        { value: "CE7", text: "카페" },
+        { value: "HP8", text: "병원" },
+        { value: "PM9", text: "약국" },
+      ],
     };
   },
   created() {
@@ -458,6 +498,46 @@ export default {
         this.search();
       }, 5000);
       this.recognition.start();
+    },
+    changeCategory() {
+      console.log(this.selectedCategory);
+      // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+      infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+
+      // 장소 검색 객체를 생성합니다
+      const ps = new kakao.maps.services.Places(map);
+
+      // 카테고리로 은행을 검색합니다
+      ps.categorySearch(this.selectedCategory, this.placesSearchCB, {
+        useMapBounds: true,
+      });
+    },
+    // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+    placesSearchCB(data, status, pagination) {
+      if (status === kakao.maps.services.Status.OK) {
+        for (const i = 0; i < data.length; i++) {
+          this.displayMarker(data[i]);
+        }
+      }
+    },
+    // 지도에 마커를 표시하는 함수입니다
+    displayMarker(place) {
+      // 마커를 생성하고 지도에 표시합니다
+      const marker = new kakao.maps.Marker({
+        map: map,
+        position: new kakao.maps.LatLng(place.y, place.x),
+      });
+
+      // 마커에 클릭이벤트를 등록합니다
+      kakao.maps.event.addListener(marker, "click", function () {
+        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+        infowindow.setContent(
+          '<div style="padding:5px;font-size:12px;">' +
+            place.place_name +
+            "</div>"
+        );
+        infowindow.open(map, marker);
+      });
     },
   },
 };
