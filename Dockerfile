@@ -3,8 +3,6 @@ FROM node:lts-alpine
 # install simple http server for serving static content
 RUN npm install -g http-server
 
-RUN npm i @vue/cli-service
-
 # make the 'app' folder the current working directory
 WORKDIR /app
 
