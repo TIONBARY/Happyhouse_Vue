@@ -3,8 +3,6 @@ FROM node:lts-alpine
 # install simple http server for serving static content
 RUN npm install -g http-server
 
-RUN npm ci
-
 # make the 'app' folder the current working directory
 WORKDIR /app
 
@@ -26,6 +24,8 @@ FROM node:lts-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --production
+COPY . .
+RUN npm ci
 COPY . .
 RUN npm run build
 
