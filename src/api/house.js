@@ -3,7 +3,7 @@ import { apiInstance } from "./index.js";
 const api = apiInstance();
 
 async function getDongList(code) {
-  //test
+  //test1
   return await api.get(`/search/dongList/${code}`);
 }
 
